@@ -44,6 +44,7 @@ mod platform {
     use self::libc::sighandler_t;
     use self::libc::SIGINT;
     use self::libc::SIGTERM;
+    use self::libc::SIGKILL;
     use self::libc::signal;
     use std::sync::atomic::Ordering;
 
@@ -54,6 +55,7 @@ mod platform {
     pub unsafe fn set_os_handler(handler: fn(c_int)) {
         signal(SIGINT, ::std::mem::transmute::<_, sighandler_t>(handler));
         signal(SIGTERM, ::std::mem::transmute::<_, sighandler_t>(handler));
+        signal(SIGKILL, ::std::mem::transmute::<_, sighandler_t>(handler));
     }
 }
 #[cfg(windows)]
